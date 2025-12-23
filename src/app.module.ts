@@ -1,10 +1,26 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import {
+  configuration,
+  LoggerModuleConfigService,
+  ObjectionConfigService,
+  validationOptions,
+  validationSchema,
+} from '@src/common';
+import { ConfigModule } from '@nestjs/config';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+      validationSchema: validationSchema,
+      validationOptions: validationOptions,
+    }),
+    LoggerModule.forRootAsync(LoggerModuleConfigService),
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [ObjectionConfigService],
 })
 export class AppModule {}
