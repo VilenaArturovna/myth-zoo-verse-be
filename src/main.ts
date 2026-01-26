@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import { ExceptionInterceptor } from '@libs/interceptors';
+//const cookieParser = require('cookie-parser');
 
 const useSwagger = (app: INestApplication) => {
   const options = new DocumentBuilder()
@@ -49,6 +50,8 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+
+  //app.use(cookieParser());
 
   useSwagger(app);
   await app.listen(port, () => {

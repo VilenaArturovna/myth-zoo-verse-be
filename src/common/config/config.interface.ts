@@ -19,6 +19,14 @@ export interface Config {
     };
   };
   jwt: {
-    secret: string;
+    accessSecret: string;
+    refreshSecret: string;
+    accessTtl: number;
+    refreshTtl: number;
+    cookieSecure: boolean;
+  };
+  telegram: {
+    name: string;
+    token: string;
   };
 }
