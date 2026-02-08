@@ -9,8 +9,11 @@ import {
 } from '@src/common';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
-import { UserModule } from '@modules/users/user.module';
+import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { ReportsModule } from '@modules/reports/reports.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -21,10 +24,17 @@ import { AuthModule } from '@modules/auth/auth.module';
       validationOptions: validationOptions,
     }),
     LoggerModule.forRootAsync(LoggerModuleConfigService),
-    UserModule,
+    UsersModule,
     AuthModule,
+    ReportsModule,
   ],
   controllers: [AppController],
-  providers: [ObjectionConfigService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    ObjectionConfigService,
+  ],
 })
 export class AppModule {}

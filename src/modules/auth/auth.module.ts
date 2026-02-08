@@ -4,13 +4,14 @@ import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { commandControllers, commandHandlers } from '@modules/auth/commands';
 import { CqrsModule } from '@nestjs/cqrs';
-import { UserModule } from '@modules/users/user.module';
+import { UsersModule } from '@modules/users/users.module';
+import { JwtConfigService } from '@src/common';
 
 @Module({
   imports: [
-    JwtModule.register({}), // мы будем подписывать токены через JwtService + ConfigService
+    JwtModule.registerAsync({ useClass: JwtConfigService }), // мы будем подписывать токены через JwtService + ConfigService
     CqrsModule,
-    UserModule,
+    UsersModule,
   ],
   controllers: [...commandControllers],
   providers: [JwtAccessStrategy, JwtRefreshStrategy, ...commandHandlers],

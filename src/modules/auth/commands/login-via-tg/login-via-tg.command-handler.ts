@@ -3,7 +3,7 @@ import { CommandHandlerBase } from '@libs/base-classes/command-handler.base';
 import { ValidationException } from '@libs/exceptions';
 import { checkTelegramHash, Result } from '@libs/utils';
 import { HashVO, UrlVO } from '@libs/value-objects';
-import { UserUnitOfWork } from '@modules/users/database/unit-of-work';
+import { UsersUnitOfWork } from '@modules/users/database/unit-of-work';
 import { UserEntity } from '@modules/users/domain';
 import { ConfigService } from '@nestjs/config';
 import { CommandHandler } from '@nestjs/cqrs';
@@ -15,11 +15,11 @@ import { JwtPayload } from '@modules/auth/strategies/jwt-access.strategy';
 
 @CommandHandler(LoginViaTgCommand)
 export class LoginViaTgCommandHandler extends CommandHandlerBase<
-  UserUnitOfWork,
+  UsersUnitOfWork,
   LoginViaTgResponse
 > {
   constructor(
-    unitOfWork: UserUnitOfWork,
+    unitOfWork: UsersUnitOfWork,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {

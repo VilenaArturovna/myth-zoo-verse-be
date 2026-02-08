@@ -9,7 +9,7 @@ export abstract class CommandHandlerBase<
 > {
   protected readonly unitOfWork: UnitOfWork;
 
-  constructor(unitOfWork: UnitOfWork) {
+  protected constructor(unitOfWork: UnitOfWork) {
     this.unitOfWork = unitOfWork;
   }
 

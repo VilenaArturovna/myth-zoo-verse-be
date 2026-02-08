@@ -1,1 +1,1 @@
-export * from './user.unit-of-work';
+export * from './users.unit-of-work';
