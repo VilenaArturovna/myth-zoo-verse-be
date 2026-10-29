@@ -1,11 +1,11 @@
 import { Knex } from 'knex';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { Tables } from '@libs/tables';
+import { CoreTables } from '@libs/tables';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function seed(knex: Knex): Promise<void> {
-  const { count } = await knex(Tables.codeWords).count().first();
+  const { count } = await knex(CoreTables.codeWords).count().first();
 
   if (!+count) {
     const filePath = path.join(
@@ -30,7 +30,7 @@ export async function seed(knex: Knex): Promise<void> {
 
     const selected = filtered.slice(0, Math.min(count, filtered.length));
 
-    await knex(Tables.codeWords).insert(
+    await knex(CoreTables.codeWords).insert(
       selected.map((item) => ({ word: item, isActive: true })),
     );
   }

@@ -3,6 +3,8 @@ import type { Knex } from 'knex';
 
 dotEnvConfig();
 
+const directory = 'database/migrations';
+
 const config: Knex.Config = {
   client: 'pg',
   connection: {
@@ -13,7 +15,7 @@ const config: Knex.Config = {
     password: process.env.POSTGRES_PASSWORD,
   },
   migrations: {
-    directory: 'database/migrations',
+    directory: [`${directory}/core`, `${directory}/zoo`],
     stub: 'database/migration.stub.ts',
   },
   seeds: {

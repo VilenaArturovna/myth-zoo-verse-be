@@ -1,8 +1,8 @@
-import { Tables } from '@libs/tables';
+import { CoreTables } from '@libs/tables';
 import { UserModel, UserOrmEntityProps } from './user.orm-entity';
 
 export class UserObjectionOrmEntity extends UserModel {
-  static tableName = Tables.users;
+  static tableName = CoreTables.users;
 
   static create(props: UserOrmEntityProps) {
     return this.fromJson(props);

@@ -1,11 +1,11 @@
-import { Tables } from '@libs/tables';
+import { CoreTables } from '@libs/tables';
 import { ReportModel, ReportOrmEntityProps } from './report.orm-entity';
 import { Model, RelationMappings } from 'objection';
 import { UserObjectionOrmEntity } from '@modules/users/database/entities';
 import { CodeWordObjectionOrmEntity } from '@modules/reports/database/entities';
 
 export class ReportObjectionOrmEntity extends ReportModel {
-  static tableName = Tables.reports;
+  static tableName = CoreTables.reports;
 
   static create(props: ReportOrmEntityProps) {
     return this.fromJson(props);

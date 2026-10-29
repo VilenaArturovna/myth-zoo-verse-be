@@ -7,7 +7,7 @@ import {
   GetApprovedReportsReadDao,
 } from './get-approved-reports.read.dao';
 import { GetApprovedReportsQuery } from '@modules/reports/queries';
-import { Tables } from '@libs/tables';
+import { CoreTables } from '@libs/tables';
 import { ReportStatus } from '@modules/reports/types';
 import { paginate } from '@libs/pagination';
 
@@ -18,7 +18,7 @@ export class GetApprovedReportsObjectionReadDao extends GetApprovedReportsReadDa
     const knex = Model.knex();
 
     const qb = knex
-      .from(`${Tables.reports} as r`)
+      .from(`${CoreTables.reports} as r`)
       .select(
         'r.id',
         'r.createdAt',
@@ -30,9 +30,9 @@ export class GetApprovedReportsObjectionReadDao extends GetApprovedReportsReadDa
         'r.stitchesNormalized',
         'w.word as codeWord',
       )
-      .innerJoin(`${Tables.codeWords} as w`, 'r.codeWordId', 'w.id')
-      .innerJoin(`${Tables.users} as u`, 'r.userId', 'u.id')
-      .innerJoin(`${Tables.users} as rev`, 'r.userId', 'rev.id')
+      .innerJoin(`${CoreTables.codeWords} as w`, 'r.codeWordId', 'w.id')
+      .innerJoin(`${CoreTables.users} as u`, 'r.userId', 'u.id')
+      .innerJoin(`${CoreTables.users} as rev`, 'r.userId', 'rev.id')
       .where('r.status', ReportStatus.approved)
       .where('r.deleteAt', '>', 'now()')
       .orderBy('r.approvedAt', 'desc');

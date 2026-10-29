@@ -1,8 +1,8 @@
-import { Tables } from '@libs/tables';
+import { CoreTables } from '@libs/tables';
 import { CodeWordModel, CodeWordOrmEntityProps } from './code-word.orm-entity';
 
 export class CodeWordObjectionOrmEntity extends CodeWordModel {
-  static tableName = Tables.codeWords;
+  static tableName = CoreTables.codeWords;
 
   static create(props: CodeWordOrmEntityProps) {
     return this.fromJson(props);

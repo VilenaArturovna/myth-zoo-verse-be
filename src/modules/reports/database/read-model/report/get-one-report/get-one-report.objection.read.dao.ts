@@ -7,7 +7,7 @@ import {
   GetOneReportReadDao,
 } from './get-one-report.read.dao';
 import { GetOneReportQuery } from '@modules/reports/queries';
-import { Tables } from '@libs/tables';
+import { CoreTables } from '@libs/tables';
 import { NotFoundException } from '@libs/exceptions';
 
 export class GetOneReportObjectionReadDao extends GetOneReportReadDao {
@@ -17,7 +17,7 @@ export class GetOneReportObjectionReadDao extends GetOneReportReadDao {
     const knex = Model.knex();
 
     const qb = knex
-      .from(`${Tables.reports} as r`)
+      .from(`${CoreTables.reports} as r`)
       .select(
         'r.id',
         'r.createdAt',
@@ -40,9 +40,9 @@ export class GetOneReportObjectionReadDao extends GetOneReportReadDao {
         knex.raw(`("stitchesRaw"->>'petits')::int as petits`),
         knex.raw(`("stitchesRaw"->>'beads')::int as beads`),
       )
-      .innerJoin(`${Tables.codeWords} as w`, 'r.codeWordId', 'w.id')
-      .innerJoin(`${Tables.users} as u`, 'r.userId', 'u.id')
-      .leftJoin(`${Tables.users} as rev`, 'r.userId', 'rev.id')
+      .innerJoin(`${CoreTables.codeWords} as w`, 'r.codeWordId', 'w.id')
+      .innerJoin(`${CoreTables.users} as u`, 'r.userId', 'u.id')
+      .leftJoin(`${CoreTables.users} as rev`, 'r.userId', 'rev.id')
       .where('r.id', query.params.id)
       .whereNull('r.deleteAt')
       .first();

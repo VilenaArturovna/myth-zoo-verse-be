@@ -7,7 +7,7 @@ import {
   GetMyReportsReadDao,
 } from './get-my-reports.read.dao';
 import { GetMyReportsQuery } from '@modules/reports/queries';
-import { Tables } from '@libs/tables';
+import { CoreTables } from '@libs/tables';
 
 export class GetMyReportsObjectionReadDao extends GetMyReportsReadDao {
   async query(
@@ -16,9 +16,9 @@ export class GetMyReportsObjectionReadDao extends GetMyReportsReadDao {
     const knex = Model.knex();
 
     const qb = knex
-      .from(`${Tables.reports} as r`)
+      .from(`${CoreTables.reports} as r`)
       .select('r.id', 'w.word as codeWord', 'r.status', 'r.stitchesNormalized')
-      .innerJoin(`${Tables.codeWords} as w`, 'r.codeWordId', 'w.id')
+      .innerJoin(`${CoreTables.codeWords} as w`, 'r.codeWordId', 'w.id')
       .where({ userId: query.params.userId })
       .andWhere('r.deleteAt', '>', 'now()')
       .orderBy('r.createdAt', 'desc');

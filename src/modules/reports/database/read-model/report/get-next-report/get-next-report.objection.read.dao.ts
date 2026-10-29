@@ -7,7 +7,7 @@ import {
   GetNextReportReadDao,
 } from './get-next-report.read.dao';
 import { GetNextReportQuery } from '@modules/reports/queries';
-import { Tables } from '@libs/tables';
+import { CoreTables } from '@libs/tables';
 import { NotFoundException } from '@libs/exceptions';
 import { ReportStatus } from '@modules/reports/types';
 
@@ -18,7 +18,7 @@ export class GetNextReportObjectionReadDao extends GetNextReportReadDao {
     const knex = Model.knex();
 
     const qb = knex
-      .from(`${Tables.reports} as r`)
+      .from(`${CoreTables.reports} as r`)
       .select(
         'r.id',
         'r.createdAt',
@@ -34,7 +34,7 @@ export class GetNextReportObjectionReadDao extends GetNextReportReadDao {
         knex.raw(`("stitchesRaw"->>'petits')::int as petits`),
         knex.raw(`("stitchesRaw"->>'beads')::int as beads`),
       )
-      .innerJoin(`${Tables.codeWords} as w`, 'r.codeWordId', 'w.id')
+      .innerJoin(`${CoreTables.codeWords} as w`, 'r.codeWordId', 'w.id')
       .where({ status: ReportStatus.pending })
       .andWhere(function () {
         this.whereNull('r.skipReviewerId').orWhere(
