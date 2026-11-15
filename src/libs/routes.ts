@@ -7,7 +7,18 @@ const userById = `${usersRoot}/:id`;
 
 export const routes = {
   auth: {
-    loginViaTg: 'user/login-via-tg',
+    telegramStart: '/auth/telegram/start',
+    telegramComplete: '/auth/telegram/complete',
+    register: '/auth/register',
+    verifyEmail: '/auth/verify-email',
+    resend: '/auth/resend-verification',
+    login: '/auth/login',
+    refresh: '/auth/refresh',
+    logout: '/auth/logout',
+    logoutAll: '/auth/logout-all',
+    forgotPassword: '/auth/forgot-password',
+    resetPassword: '/auth/reset-password',
+    csrf: '/auth/csrf',
   },
   user: {
     profile: {

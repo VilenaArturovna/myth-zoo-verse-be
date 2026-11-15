@@ -1,0 +1,13 @@
+{
+  "rootDir": "..",
+  "testEnvironment": "node",
+  "testRegex": "test/telegram-review.e2e-spec.ts$",
+  "transform": { "^.+\\.ts$": "ts-jest" },
+  "moduleNameMapper": {
+    "^@src/(.*)$": "<rootDir>/src/$1",
+    "^@modules/(.*)$": "<rootDir>/src/modules/$1",
+    "^@libs/(.*)$": "<rootDir>/src/libs/$1"
+  },
+  "setupFiles": ["<rootDir>/test/auth-env.ts"],
+  "testTimeout": 30000
+}

@@ -1,3 +1,4 @@
+import { safeLoggingOptions } from './safe-logging';
 import { RequestMethod } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { LoggerModuleAsyncParams } from 'nestjs-pino/params';
@@ -11,8 +12,10 @@ export const LoggerModuleConfigService: LoggerModuleAsyncParams = {
     return {
       pinoHttp: {
         autoLogging: false,
+        ...safeLoggingOptions,
         level: env !== 'production' ? 'debug' : 'info',
         logger: pino({
+          ...safeLoggingOptions,
           transport: {
             target: 'pino-pretty',
             options: {

@@ -1,6 +1,13 @@
-export type EnvironmentTypes = 'development' | 'production';
+import { AuthSettings } from './auth-configuration';
+
+export type EnvironmentTypes =
+  | 'development'
+  | 'staging'
+  | 'production'
+  | 'test';
 
 export interface Config {
+  auth: AuthSettings;
   app: {
     env: EnvironmentTypes;
     port: number;

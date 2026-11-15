@@ -11,13 +11,16 @@ export class UserObjectionOrmEntity extends UserModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['username', 'tgId', 'crystals', 'totalStitches', 'role'],
+      required: ['username', 'crystals', 'totalStitches', 'role'],
       properties: {
         id: { type: 'string' },
         createdAt: { type: 'string' },
         updatedAt: { type: 'string' },
         username: { type: 'string' },
-        tgId: { type: 'string' },
+        tgId: { type: ['string', 'null'] },
+        email: { type: ['string', 'null'] },
+        emailVerifiedAt: { type: ['string', 'null'] },
+        passwordHash: { type: ['string', 'null'] },
         crystals: { type: 'number' },
         totalStitches: { type: 'number' },
         role: { type: 'string' },

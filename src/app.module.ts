@@ -20,6 +20,7 @@ import { WorldModule } from '@modules/world/world.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      ignoreEnvFile: process.env.NODE_ENV === 'test',
       load: [configuration],
       validationSchema: validationSchema,
       validationOptions: validationOptions,

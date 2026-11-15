@@ -1,7 +1,9 @@
+import { authConfiguration } from './auth-configuration';
 import * as process from 'process';
 import { Config, EnvironmentTypes } from '@src/common';
 
 export const configuration = (): Config => ({
+  auth: authConfiguration(),
   app: {
     env: process.env.NODE_ENV as EnvironmentTypes,
     port: parseInt(process.env.PORT),

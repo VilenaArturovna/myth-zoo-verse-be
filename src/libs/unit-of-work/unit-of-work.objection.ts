@@ -63,7 +63,11 @@ export class UnitOfWorkObjection extends UnitOfWork {
   async commit(id: TrxId) {
     const trx = this.getTrx(id);
 
-    await trx.commit();
+    try {
+      await trx.commit();
+    } finally {
+      this.finish(id);
+    }
   }
 
   async rollback(id: TrxId) {

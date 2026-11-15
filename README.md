@@ -1,3 +1,7 @@
+# Platform backend
+
+Email/password authentication and the retained Telegram login: [setup, API and migration guide](docs/auth/email-auth.md).
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>

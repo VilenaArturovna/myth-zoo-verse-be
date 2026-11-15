@@ -29,9 +29,6 @@ export class GetUserDaoModel {
 
   @ApiProperty()
   role: Role;
-
-  @ApiPropertyOptional({ nullable: true })
-  refreshTokenHash?: string;
 }
 
 export abstract class GetUserReadDao extends ReadDaoBase<

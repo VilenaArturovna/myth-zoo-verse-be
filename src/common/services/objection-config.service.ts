@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Knex from 'knex';
 import { Model } from 'objection';
-import { EnvironmentTypes } from '../config';
 
 @Injectable()
 export class ObjectionConfigService {
@@ -20,8 +19,8 @@ export class ObjectionConfigService {
         password: this.configService.get<string>('database.postgres.password'),
         database: this.configService.get<string>('database.postgres.database'),
       },
-      debug:
-        this.configService.get<EnvironmentTypes>('app.env') === 'development',
+      // Knex debug prints SQL bindings, including credential/token hashes.
+      debug: false,
     });
 
     Model.knex(knex);

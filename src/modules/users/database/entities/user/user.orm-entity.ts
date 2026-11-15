@@ -2,7 +2,10 @@ import { ModelBase, OrmEntityBase } from '@libs/base-classes';
 import { Role } from '@modules/users/types';
 
 export interface UserOrmEntityProps {
-  tgId: string;
+  tgId?: string;
+  email?: string;
+  emailVerifiedAt?: string;
+  passwordHash?: string;
   username: string;
   photoUrl?: string;
   totalStitches: number;
@@ -18,7 +21,10 @@ export class UserOrmEntity
   crystals: number;
   photoUrl?: string;
   role: Role;
-  tgId: string;
+  tgId?: string;
+  email?: string;
+  emailVerifiedAt?: string;
+  passwordHash?: string;
   totalStitches: number;
   username: string;
   refreshTokenHash?: string;
@@ -28,7 +34,10 @@ export class UserModel extends ModelBase implements UserOrmEntity {
   crystals: number;
   photoUrl?: string;
   role: Role;
-  tgId: string;
+  tgId?: string;
+  email?: string;
+  emailVerifiedAt?: string;
+  passwordHash?: string;
   totalStitches: number;
   username: string;
   refreshTokenHash?: string;

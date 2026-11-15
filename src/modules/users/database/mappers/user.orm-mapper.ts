@@ -31,6 +31,9 @@ export class UserOrmMapper extends OrmMapper<
       crystals: ormEntity.crystals,
       role: ormEntity.role,
       tgId: ormEntity.tgId,
+      email: ormEntity.email,
+      emailVerifiedAt: ormEntity.emailVerifiedAt,
+      passwordHash: ormEntity.passwordHash,
       photoUrl: ormEntity.photoUrl ? new UrlVO(ormEntity.photoUrl) : null,
       refreshTokenHash: ormEntity.refreshTokenHash
         ? new HashVO(ormEntity.refreshTokenHash)
@@ -43,7 +46,10 @@ export class UserOrmMapper extends OrmMapper<
     return {
       role: props.role,
       username: props.username,
-      tgId: props.tgId,
+      tgId: props.tgId ?? null,
+      email: props.email ?? null,
+      emailVerifiedAt: props.emailVerifiedAt ?? null,
+      passwordHash: props.passwordHash ?? null,
       crystals: props.crystals,
       totalStitches: props.totalStitches,
       photoUrl: props.photoUrl ? props.photoUrl.value : null,

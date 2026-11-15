@@ -1,3 +1,4 @@
+import { existsSync } from 'fs';
 import { config as dotEnvConfig } from 'dotenv';
 import type { Knex } from 'knex';
 
@@ -15,7 +16,10 @@ const config: Knex.Config = {
     password: process.env.POSTGRES_PASSWORD,
   },
   migrations: {
-    directory: [`${directory}/core`, `${directory}/zoo`],
+    directory: [
+      `${directory}/core`,
+      ...[`${directory}/zoo`].filter(existsSync),
+    ],
     stub: 'database/migration.stub.ts',
   },
   seeds: {

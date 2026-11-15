@@ -1,3 +1,4 @@
+import { NotFoundException } from '@libs/exceptions';
 import { ExceptionBase } from '@libs/base-classes';
 import { Result } from '@libs/utils';
 import { Model } from 'objection';
@@ -26,10 +27,9 @@ export class GetUserObjectionReadDao extends GetUserReadDao {
       .where('id', query.params.id)
       .first();
 
-    if (query.params.withRefreshTokenHash) {
-      qb.select('refreshTokenHash');
-    }
-
-    return Result.ok(await qb);
+    const user = await qb;
+    return user
+      ? Result.ok(user)
+      : Result.fail(new NotFoundException('Пользователь не найден'));
   }
 }

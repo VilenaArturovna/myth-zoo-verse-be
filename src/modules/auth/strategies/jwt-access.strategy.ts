@@ -1,31 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { GetUserReadDao } from '@modules/users/database/read-model';
-import { ForbiddenException } from '@libs/exceptions';
-
-export type JwtPayload = { id: string };
-
+import { isUUID } from 'class-validator';
+import { AccessClaims, publicProfile } from '../domain/auth.security';
+import { activeSession } from '../database/auth.repository';
+export type JwtPayload = AccessClaims;
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    config: ConfigService,
-    private readonly userReadDao: GetUserReadDao,
-  ) {
+  constructor(config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: config.get<string>('jwt.accessSecret'),
+      algorithms: ['HS256'],
+      issuer: 'myth-zoo-verse',
+      audience: 'platform',
     });
   }
-
-  async validate(payload: JwtPayload) {
-    const result = await this.userReadDao.query({ params: { id: payload.id } });
-
-    if (result.isErr) {
-      throw new ForbiddenException('Вы не авторизованы');
-    }
-
-    return result.unwrap();
+  async validate(payload: AccessClaims) {
+    if (
+      payload.typ !== 'access' ||
+      !isUUID(payload.sub) ||
+      !isUUID(payload.sid)
+    )
+      throw new UnauthorizedException('Сессия недействительна');
+    const user = await activeSession(payload.sub, payload.sid);
+    if (!user) throw new UnauthorizedException('Сессия недействительна');
+    return {
+      ...publicProfile(user),
+      sessionId: payload.sid,
+      csrfHash: user.csrfHash,
+    };
   }
 }

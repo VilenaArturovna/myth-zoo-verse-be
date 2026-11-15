@@ -6,16 +6,19 @@ import { UserHasEmptyFieldsError } from '@modules/users/domain/errors';
 export interface UserEntityProps {
   username: string;
   photoUrl?: UrlVO;
-  tgId: string;
+  tgId?: string;
   totalStitches: number;
   crystals: number;
   role: Role;
   refreshTokenHash?: HashVO;
+  email?: string;
+  emailVerifiedAt?: string;
+  passwordHash?: string;
 }
 
 type CreateUserEntityProps = Pick<
   UserEntityProps,
-  'tgId' | 'refreshTokenHash' | 'photoUrl'
+  'tgId' | 'refreshTokenHash' | 'photoUrl' | 'email' | 'passwordHash'
 > & {
   role?: Role;
   username?: string;
@@ -33,7 +36,9 @@ export class UserEntity extends EntityBase<UserEntityProps> {
         role: props.role ?? Role.user,
         totalStitches: 0,
         crystals: 100,
-        username: props.username ?? `Пользователь ${props.tgId}`,
+        username:
+          props.username ??
+          (props.tgId ? `Пользователь ${props.tgId}` : 'Пользователь'),
       },
     });
   }
@@ -68,9 +73,9 @@ export class UserEntity extends EntityBase<UserEntityProps> {
   }
 
   protected validate() {
-    const { role, tgId, crystals, totalStitches, username } = this.props;
+    const { role, crystals, totalStitches, username } = this.props;
 
-    const requiredFields = [role, tgId, crystals, totalStitches, username];
+    const requiredFields = [role, crystals, totalStitches, username];
 
     if (requiredFields.some((f) => f === null || f === undefined)) {
       throw new UserHasEmptyFieldsError();

@@ -1,6 +1,8 @@
 import { ExceptionBase } from '@libs/base-classes';
 import {
   BadRequestException,
+  HttpException,
+  InternalServerErrorException,
   ConflictException,
   ForbiddenException,
   LoggerService,
@@ -9,7 +11,11 @@ import {
 import { ExceptionCodes } from './exception.codes';
 
 export const exceptionMapper = (ex: ExceptionBase, logger: LoggerService) => {
-  logger.error(ex);
+  // Errors may contain SQL bindings, SMTP bodies or credentials.
+  logger.error({
+    event: 'request_failed',
+    type: ex?.constructor?.name ?? 'Error',
+  });
 
   if (ex.toJSON) {
     const exception = ex.toJSON();
@@ -33,5 +39,6 @@ export const exceptionMapper = (ex: ExceptionBase, logger: LoggerService) => {
     }
   }
 
-  throw ex;
+  if (ex instanceof HttpException) throw ex;
+  throw new InternalServerErrorException('Внутренняя ошибка сервера');
 };

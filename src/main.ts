@@ -1,16 +1,21 @@
+import { configureHttp } from './common/configure-http';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import { ExceptionInterceptor } from '@libs/interceptors';
-//const cookieParser = require('cookie-parser');
 
 const useSwagger = (app: INestApplication) => {
   const options = new DocumentBuilder()
     .setTitle('GSR API')
     .setVersion('1.0')
+    .addCookieAuth(
+      'platform_refresh',
+      { type: 'apiKey', in: 'cookie' },
+      'refresh',
+    )
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
@@ -31,9 +36,8 @@ const useSwagger = (app: INestApplication) => {
 };
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: true,
-  });
+  const app = await NestFactory.create(AppModule, { bodyParser: false });
+  configureHttp(app);
 
   const configService = app.get(ConfigService);
 
@@ -44,14 +48,6 @@ async function bootstrap() {
   app.useLogger(pinoLogger);
 
   app.useGlobalInterceptors(new ExceptionInterceptor(pinoLogger));
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-    }),
-  );
-
-  //app.use(cookieParser());
 
   useSwagger(app);
   await app.listen(port, () => {
